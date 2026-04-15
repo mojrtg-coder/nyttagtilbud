@@ -1,0 +1,493 @@
+// Shared HTML components — returns string fragments
+// All styling inline, no external CSS file (per Bible: no frameworks, max speed)
+const { SITE } = require('./data');
+
+// ============= CSS =============
+const css = () => `<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#0E1209;--ink2:#161D10;--ink3:#1D2716;
+  --forest:#1A3A10;--sage:#4A7C35;
+  --gold:#D4920A;--gold2:#F2A800;
+  --cream:#F5F3EC;--warm:#EDE9DF;--mist:#F9F8F4;
+  --text:#181F14;--muted:#637055;--border:#D5D0C4;--white:#fff;
+  --red:#C0392B;--redbg:#FFF3F3;
+  --r:10px;--rl:14px;--shadow:0 2px 16px rgba(14,18,9,.08);--shadow-lg:0 8px 40px rgba(14,18,9,.18)
+}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--text);background:var(--cream);line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:'Instrument Serif',Georgia,serif;font-weight:400;line-height:1.15;color:var(--ink)}
+a{color:var(--gold);text-decoration:none;transition:color .15s}
+a:hover{color:var(--gold2)}
+img{max-width:100%;height:auto;display:block}
+.container{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* URGENCY BAR */
+.urgency{background:var(--ink);color:#fff;text-align:center;padding:10px 20px;font-size:13px;letter-spacing:.3px;font-family:'Space Mono',monospace;border-bottom:1px solid rgba(242,168,0,.15)}
+.urgency b{color:var(--gold2)}
+.urgency .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold2);margin-right:8px;animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* NAV */
+nav.top{background:rgba(245,243,236,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:16px 0;position:sticky;top:0;z-index:90}
+nav.top .container{display:flex;justify-content:space-between;align-items:center}
+.brand{font-family:'Instrument Serif',serif;font-size:22px;color:var(--ink);font-weight:400}
+.brand em{color:var(--gold);font-style:normal}
+.brand .tld{color:var(--muted);font-size:16px;font-family:'Space Mono',monospace}
+.nav-cta{background:var(--ink);color:#fff;padding:11px 22px;border-radius:8px;font-weight:600;font-size:14px;transition:all .2s;border:1px solid var(--ink)}
+.nav-cta:hover{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,var(--ink) 0%,var(--ink2) 55%,var(--forest) 100%);color:#fff;padding:70px 0 90px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;right:-20%;width:70%;height:200%;background:radial-gradient(ellipse,rgba(242,168,0,.08),transparent 60%);pointer-events:none}
+.hero .container{position:relative;z-index:2}
+.hero-grid{display:grid;grid-template-columns:1fr 460px;gap:56px;align-items:start}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(242,168,0,.1);border:1px solid rgba(242,168,0,.3);color:var(--gold2);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:6px 15px;border-radius:6px;margin-bottom:22px;font-family:'Space Mono',monospace}
+.hero h1{font-size:clamp(32px,5vw,54px);color:#fff;margin-bottom:18px;letter-spacing:-.5px}
+.hero h1 em{color:var(--gold2);font-style:normal}
+.hero .sub{font-size:18px;color:rgba(255,255,255,.68);max-width:560px;margin-bottom:30px;line-height:1.65}
+.hero-stats{display:flex;gap:28px;flex-wrap:wrap;margin-top:26px;padding-top:26px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-stat{display:flex;flex-direction:column;gap:2px}
+.hero-stat b{color:var(--gold2);font-size:22px;font-family:'Instrument Serif',serif;font-weight:400;line-height:1}
+.hero-stat span{font-size:12px;color:rgba(255,255,255,.5);font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.5px}
+.hero-trust{display:flex;align-items:center;gap:10px;margin-top:20px;font-size:13px;color:rgba(255,255,255,.65)}
+.tp-stars{color:#00B67A;letter-spacing:2px;font-size:15px}
+@media(max-width:900px){.hero{padding:40px 0 60px}.hero-grid{grid-template-columns:1fr;gap:28px}.hero .sub{font-size:16px}}
+
+/* FORM CARD */
+.form-card{background:#fff;border-radius:var(--rl);padding:30px 28px;box-shadow:var(--shadow-lg);color:var(--text);border:1px solid rgba(255,255,255,.08)}
+.form-head{margin-bottom:18px}
+.form-head h3{font-size:23px;margin-bottom:4px}
+.form-head p{font-size:13px;color:var(--muted);font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.5px}
+.form-steps{display:flex;gap:6px;margin-bottom:20px}
+.form-step-dot{flex:1;height:4px;background:var(--border);border-radius:2px;transition:background .3s}
+.form-step-dot.active{background:var(--gold)}
+.form-step-dot.done{background:var(--sage)}
+.form-card label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px;margin-top:14px;text-transform:uppercase;letter-spacing:.4px;font-family:'Space Mono',monospace}
+.form-card input,.form-card select,.form-card textarea{width:100%;padding:13px 15px;border:1.5px solid var(--border);border-radius:8px;font-size:15px;font-family:'Outfit',sans-serif;background:#fff;color:var(--text);transition:border-color .15s}
+.form-card input:focus,.form-card select:focus,.form-card textarea:focus{outline:none;border-color:var(--gold)}
+.form-card .field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn-next,.btn-submit{width:100%;padding:16px;background:var(--gold);color:var(--ink);border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;margin-top:20px;transition:all .2s;letter-spacing:.3px;font-family:'Outfit',sans-serif}
+.btn-next:hover,.btn-submit:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(212,146,10,.3)}
+.btn-back{background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;margin-top:10px;padding:6px;font-family:'Outfit',sans-serif;width:100%;text-align:center}
+.btn-back:hover{color:var(--ink)}
+.form-footer{text-align:center;font-size:11px;color:var(--muted);margin-top:12px;font-family:'Space Mono',monospace;line-height:1.6}
+.form-step{display:none}
+.form-step.active{display:block}
+.form-success{display:none;text-align:center;padding:30px 10px}
+.form-success.show{display:block}
+.form-success h3{font-size:26px;color:var(--sage);margin-bottom:10px}
+.form-success p{color:var(--muted);font-size:14px}
+
+/* TICKER */
+.ticker{background:var(--mist);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:14px 0;overflow:hidden}
+.ticker-inner{display:flex;gap:48px;animation:tick 40s linear infinite;white-space:nowrap}
+.ticker-item{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);font-family:'Space Mono',monospace}
+.ticker-dot{width:8px;height:8px;border-radius:50%;background:var(--sage)}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTIONS */
+section{padding:80px 0}
+.sec-head{text-align:center;margin-bottom:50px}
+.sec-label{display:inline-block;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.sec-head h2{font-size:clamp(30px,4vw,42px);margin-bottom:12px}
+.sec-head p{font-size:17px;color:var(--muted);max-width:620px;margin:0 auto;line-height:1.65}
+
+/* STEPS */
+.steps{background:var(--warm)}
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.step{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:34px 28px;position:relative;transition:transform .2s,box-shadow .2s}
+.step:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.step-num{position:absolute;top:-14px;left:28px;width:36px;height:36px;background:var(--ink);color:var(--gold2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:18px;border:3px solid var(--warm)}
+.step h3{font-size:22px;margin:8px 0 10px}
+.step p{font-size:14.5px;color:var(--muted);line-height:1.65}
+@media(max-width:800px){.steps-grid{grid-template-columns:1fr}}
+
+/* PRICING */
+.pricing{background:var(--cream)}
+.price-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;box-shadow:var(--shadow)}
+.price-table th{background:var(--ink);color:#fff;padding:16px 18px;text-align:left;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;font-family:'Space Mono',monospace}
+.price-table td{padding:16px 18px;font-size:14.5px;border-bottom:1px solid var(--border);vertical-align:middle}
+.price-table tr:last-child td{border-bottom:none}
+.price-table tr:nth-child(even) td{background:var(--mist)}
+.price-table td b{color:var(--ink);font-size:16px}
+.price-table .lifetime{color:var(--sage);font-weight:600;font-size:13px}
+
+/* ZONE GRID */
+.zones{background:var(--ink);color:#fff}
+.zones .sec-head h2{color:#fff}
+.zones .sec-head h2 em{color:var(--gold2);font-style:normal}
+.zones .sec-head p{color:rgba(255,255,255,.55)}
+.zones .sec-label{color:var(--gold2)}
+.zone-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.zone-card{background:var(--ink2);border:1px solid rgba(255,255,255,.06);border-radius:var(--rl);padding:22px 22px;transition:all .2s;display:block;color:#fff}
+.zone-card:hover{border-color:var(--gold2);background:var(--ink3);transform:translateY(-2px)}
+.zone-card .zn-num{font-family:'Space Mono',monospace;font-size:11px;color:var(--gold2);letter-spacing:1.5px;margin-bottom:6px}
+.zone-card h3{font-size:22px;color:#fff;margin-bottom:6px}
+.zone-card .zn-cities{font-size:12.5px;color:rgba(255,255,255,.48);margin-bottom:14px;font-family:'Space Mono',monospace;line-height:1.5}
+.zone-card .zn-spots{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--gold2);font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.zone-card .zn-spots.full{color:#ff6b6b}
+.zn-spots .dot{width:6px;height:6px;border-radius:50%;background:var(--gold2);animation:pulse 2s infinite}
+.zn-spots.full .dot{background:#ff6b6b}
+
+/* PROOF / REVIEWS */
+.proof{background:var(--warm)}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:10px}
+.review{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:30px 28px;box-shadow:var(--shadow)}
+.review-stars{color:#00B67A;letter-spacing:3px;font-size:18px;margin-bottom:14px}
+.review-text{font-size:15.5px;color:var(--text);line-height:1.7;margin-bottom:18px;font-style:italic}
+.review-meta{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--border)}
+.review-name{font-weight:700;font-size:14px;color:var(--ink)}
+.review-date{font-size:12px;color:var(--muted);font-family:'Space Mono',monospace}
+.tp-badge{display:inline-flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--border);padding:10px 18px;border-radius:10px;margin-top:30px;font-size:13px;color:var(--text);box-shadow:var(--shadow)}
+.tp-badge b{color:#00B67A}
+@media(max-width:900px){.reviews-grid{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq{background:var(--cream)}
+.faq-list{max-width:820px;margin:0 auto}
+.faq-item{background:#fff;border:1px solid var(--border);border-radius:var(--rl);margin-bottom:10px;overflow:hidden;transition:border-color .15s}
+.faq-item:hover{border-color:var(--gold)}
+.faq-item summary{padding:20px 24px;cursor:pointer;font-weight:600;font-size:16px;color:var(--ink);display:flex;justify-content:space-between;align-items:center;list-style:none;font-family:'Outfit',sans-serif}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:'+';color:var(--gold);font-size:24px;font-weight:300;transition:transform .2s}
+.faq-item[open] summary::after{transform:rotate(45deg)}
+.faq-item p{padding:0 24px 22px;color:var(--muted);font-size:14.5px;line-height:1.75}
+
+/* CTA BAND */
+.cta-band{background:linear-gradient(135deg,var(--ink) 0%,var(--forest) 100%);color:#fff;text-align:center;padding:70px 0}
+.cta-band h2{color:#fff;font-size:clamp(28px,4vw,40px);margin-bottom:14px}
+.cta-band h2 em{color:var(--gold2);font-style:normal}
+.cta-band p{color:rgba(255,255,255,.65);font-size:17px;margin-bottom:28px;max-width:560px;margin-left:auto;margin-right:auto}
+.cta-btn{display:inline-block;background:var(--gold);color:var(--ink);padding:18px 40px;border-radius:10px;font-weight:700;font-size:16px;transition:all .2s}
+.cta-btn:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 6px 24px rgba(242,168,0,.35);color:var(--ink)}
+
+/* FOOTER */
+footer{background:var(--ink);color:#fff;padding:60px 0 30px;border-top:1px solid rgba(242,168,0,.1)}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.foot-brand .brand{color:#fff;font-size:26px}
+.foot-brand p{color:rgba(255,255,255,.5);font-size:14px;margin-top:14px;line-height:1.7;max-width:340px}
+.foot-col h4{color:#fff;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;font-family:'Space Mono',monospace}
+.foot-col ul{list-style:none}
+.foot-col li{margin-bottom:8px}
+.foot-col a{color:rgba(255,255,255,.5);font-size:14px;transition:color .15s}
+.foot-col a:hover{color:var(--gold2)}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-size:12px;color:rgba(255,255,255,.4);font-family:'Space Mono',monospace}
+@media(max-width:900px){.foot-grid{grid-template-columns:1fr 1fr;gap:30px}}
+@media(max-width:600px){.foot-grid{grid-template-columns:1fr}}
+
+/* BREADCRUMB */
+.crumb{background:var(--warm);padding:14px 0;border-bottom:1px solid var(--border);font-size:13px;font-family:'Space Mono',monospace}
+.crumb ol{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.crumb li{color:var(--muted)}
+.crumb li::after{content:'›';margin-left:8px;color:var(--border)}
+.crumb li:last-child::after{display:none}
+.crumb li:last-child{color:var(--ink);font-weight:700}
+.crumb a{color:var(--muted)}
+.crumb a:hover{color:var(--gold)}
+
+/* LOCAL / ZONE CONTENT */
+.local{background:var(--cream);padding:70px 0}
+.local-grid{display:grid;grid-template-columns:1fr 380px;gap:48px;align-items:start}
+.local-intro h2{font-size:34px;margin-bottom:20px}
+.local-intro p{font-size:16px;color:var(--text);line-height:1.8;margin-bottom:18px}
+.local-box{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:28px 26px;box-shadow:var(--shadow)}
+.local-box h3{font-size:22px;margin-bottom:14px}
+.local-box .price-row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);font-size:14px}
+.local-box .price-row:last-child{border-bottom:none}
+.local-box .price-row b{font-family:'Space Mono',monospace;color:var(--ink)}
+.postcode-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.postcode{background:var(--mist);border:1px solid var(--border);border-radius:6px;padding:5px 12px;font-size:12px;color:var(--text);font-family:'Space Mono',monospace}
+@media(max-width:900px){.local-grid{grid-template-columns:1fr}}
+
+/* CITY GRID (on zone page) */
+.city-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-top:30px}
+.city-card{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:22px 22px;transition:all .2s;display:block;color:var(--text)}
+.city-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:var(--shadow)}
+.city-card h3{font-size:19px;color:var(--ink);margin-bottom:4px}
+.city-card .pc{font-size:12px;color:var(--muted);font-family:'Space Mono',monospace;margin-bottom:10px}
+.city-card .arrow{color:var(--gold);font-size:14px;font-weight:700}
+
+/* NEARBY ZONES */
+.nearby{padding:40px 0;background:var(--warm);border-top:1px solid var(--border)}
+.nearby h3{font-size:18px;color:var(--ink);margin-bottom:14px;font-family:'Outfit',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:12px}
+.nearby-list{display:flex;gap:10px;flex-wrap:wrap}
+.nearby-list a{background:#fff;border:1px solid var(--border);padding:10px 18px;border-radius:8px;font-size:14px;color:var(--text);transition:all .15s}
+.nearby-list a:hover{border-color:var(--gold);color:var(--gold)}
+
+/* STICKY MOBILE CTA */
+.mobile-cta{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--ink);border-top:1px solid rgba(242,168,0,.2);padding:12px 16px;z-index:80;box-shadow:0 -4px 24px rgba(0,0,0,.2)}
+.mobile-cta a{display:block;background:var(--gold);color:var(--ink);padding:15px;border-radius:8px;font-weight:700;text-align:center;font-size:15px}
+@media(max-width:900px){.mobile-cta{display:block}body{padding-bottom:70px}}
+
+/* BLOG */
+.blog-hero{background:linear-gradient(160deg,var(--ink) 0%,var(--ink2) 55%,var(--forest) 100%);color:#fff;padding:70px 0 50px}
+.blog-hero .badge{display:inline-block;background:rgba(242,168,0,.12);color:var(--gold2);padding:6px 14px;border-radius:6px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px;border:1px solid rgba(242,168,0,.3)}
+.blog-hero h1{color:#fff;font-size:clamp(32px,5vw,52px);margin-bottom:18px;max-width:820px;letter-spacing:-.5px}
+.blog-hero .lead{color:rgba(255,255,255,.7);font-size:19px;max-width:720px;line-height:1.7}
+.blog-meta{display:flex;gap:24px;margin-top:28px;font-family:'Space Mono',monospace;font-size:12px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px}
+.article{padding:60px 0 80px;background:var(--cream)}
+.article .container{max-width:820px}
+.article h2{font-size:32px;margin:44px 0 18px;color:var(--ink)}
+.article h3{font-size:22px;margin:28px 0 12px}
+.article p{font-size:17px;line-height:1.85;color:var(--text);margin-bottom:18px}
+.article ul,.article ol{margin:16px 0 20px 24px}
+.article li{font-size:17px;line-height:1.75;margin-bottom:8px;color:var(--text)}
+.article strong{color:var(--ink)}
+.article .cta-box{background:#fff;border:2px solid var(--gold);border-radius:var(--rl);padding:30px 32px;margin:40px 0;text-align:center;box-shadow:var(--shadow)}
+.article .cta-box h3{font-size:24px;margin-bottom:10px;color:var(--ink)}
+.article .cta-box p{font-size:15px;color:var(--muted);margin-bottom:18px}
+.article .cta-box a{display:inline-block;background:var(--gold);color:var(--ink);padding:14px 34px;border-radius:10px;font-weight:700;font-size:15px}
+.article .cta-box a:hover{background:var(--gold2)}
+.article table{width:100%;border-collapse:collapse;margin:24px 0;background:#fff;border-radius:var(--rl);overflow:hidden;box-shadow:var(--shadow)}
+.article th{background:var(--ink);color:#fff;padding:14px 16px;text-align:left;font-size:13px;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.5px}
+.article td{padding:13px 16px;font-size:15px;border-bottom:1px solid var(--border)}
+.article tr:nth-child(even) td{background:var(--mist)}
+.article tr:last-child td{border-bottom:none}
+.article .faq-list{margin-top:24px}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-top:20px}
+.blog-card{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:28px 28px;transition:all .2s;display:block;color:var(--text)}
+.blog-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:var(--shadow)}
+.blog-card .cat{font-family:'Space Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+.blog-card h3{font-size:22px;color:var(--ink);margin-bottom:10px;line-height:1.25}
+.blog-card p{font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:16px}
+.blog-card .read{color:var(--gold);font-size:13px;font-weight:700;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.5px}
+</style>`;
+
+// ============= HEAD =============
+function head({ title, desc, canonical, schemas = [] }) {
+  return `<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${title}</title>
+<meta name="description" content="${desc}">
+<meta name="robots" content="index,follow">
+<meta name="author" content="${SITE.name}">
+<link rel="canonical" href="${canonical}">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${desc}">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="da_DK">
+<meta property="og:url" content="${canonical}">
+<meta property="og:site_name" content="${SITE.name}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${title}">
+<meta name="twitter:description" content="${desc}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@400;500;600;700;800&family=Space+Mono&display=swap" rel="stylesheet">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${SITE.gtmId}');</script>
+<!-- End Google Tag Manager -->
+${schemas.map(s => `<script type="application/ld+json">${JSON.stringify(s)}</script>`).join('\n')}
+${css()}
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${SITE.gtmId}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->`;
+}
+
+// ============= URGENCY BAR =============
+const urgency = () => `<div class="urgency"><span class="dot"></span><b>3 boligejere</b> har netop forespurgt nyt tag inden for de sidste 15 minutter · Spar op til <b>40.000 kr</b></div>`;
+
+// ============= TOP NAV =============
+const topNav = () => `<nav class="top"><div class="container"><a href="/" class="brand">NytTag<em>Tilbud</em><span class="tld">.com</span></a><a href="#tilbud" class="nav-cta">Få 3 tilbud →</a></div></nav>`;
+
+// ============= FORM (3-step) =============
+function form({ zone = '' } = {}) {
+  return `<form class="form-card" id="tilbud" novalidate>
+  <div class="form-head">
+    <h3>Få 3 gratis tilbud</h3>
+    <p>Trin <span id="step-cur">1</span> af 3 · tager 2 minutter</p>
+  </div>
+  <div class="form-steps">
+    <div class="form-step-dot active" data-i="1"></div>
+    <div class="form-step-dot" data-i="2"></div>
+    <div class="form-step-dot" data-i="3"></div>
+  </div>
+
+  <div class="form-step active" data-step="1">
+    <label for="adr">Adresse</label>
+    <input type="text" id="adr" name="adr" placeholder="Fx Hovedgaden 12" required>
+    <div class="field-row">
+      <div><label for="pc">Postnummer</label><input type="text" id="pc" name="pc" placeholder="8000" pattern="[0-9]{4}" maxlength="4" required></div>
+      <div><label for="by">By</label><input type="text" id="by" name="by" placeholder="Aarhus" required></div>
+    </div>
+    <label for="btype">Boligtype</label>
+    <select id="btype" name="btype" required>
+      <option value="">Vælg boligtype</option>
+      <option>Parcelhus</option><option>Villa</option><option>Rækkehus</option><option>Sommerhus</option><option>Landejendom</option><option>Anden</option>
+    </select>
+    <button type="button" class="btn-next" data-next="2">Videre til trin 2 →</button>
+  </div>
+
+  <div class="form-step" data-step="2">
+    <label for="problem">Hvad er dit tagprojekt?</label>
+    <select id="problem" name="problem" required>
+      <option value="">Vælg projekt</option>
+      <option>Helt nyt tag (udskiftning)</option><option>Reparation af eksisterende tag</option><option>Udskiftning af tagrender</option><option>Asbest/eternit nedrivning</option><option>Kun rådgivning og tilbud</option>
+    </select>
+    <label for="tid">Hvornår ønsker du arbejdet udført?</label>
+    <select id="tid" name="tid" required>
+      <option value="">Vælg tidspunkt</option>
+      <option>Hurtigst muligt</option><option>Inden for 1-3 måneder</option><option>Inden for 3-6 måneder</option><option>Senere i år</option><option>Undersøger muligheder</option>
+    </select>
+    <label for="beskriv">Kort beskrivelse (valgfri)</label>
+    <textarea id="beskriv" name="beskriv" rows="3" placeholder="Fx boligens alder, tagmateriale, evt. lækager..."></textarea>
+    <button type="button" class="btn-next" data-next="3">Videre til trin 3 →</button>
+    <button type="button" class="btn-back" data-back="1">← Tilbage</button>
+  </div>
+
+  <div class="form-step" data-step="3">
+    <div class="field-row">
+      <div><label for="fn">Fornavn</label><input type="text" id="fn" name="fn" required></div>
+      <div><label for="ln">Efternavn</label><input type="text" id="ln" name="ln" required></div>
+    </div>
+    <label for="em">E-mail</label>
+    <input type="email" id="em" name="em" placeholder="dig@eksempel.dk" required>
+    <label for="tel">Telefon</label>
+    <input type="tel" id="tel" name="tel" placeholder="12 34 56 78" required>
+    <input type="hidden" name="zone" value="${zone}">
+    <button type="submit" class="btn-submit">Modtag 3 gratis tilbud →</button>
+    <button type="button" class="btn-back" data-back="2">← Tilbage</button>
+    <p class="form-footer">Dine oplysninger deles kun med op til 3 godkendte lokale taglæggere.<br>100% gratis og uforpligtende · Svar inden 2 timer</p>
+  </div>
+
+  <div class="form-success">
+    <h3>✓ Tak!</h3>
+    <p>Dine oplysninger er modtaget. Du vil blive kontaktet af op til 3 lokale taglæggere inden for 2 timer.</p>
+  </div>
+</form>`;
+}
+
+// ============= TICKER =============
+const ticker = () => {
+  const items = [
+    'Michael fra Aarhus — sparede 32.000 kr.',
+    'Matilde fra København — 3 tilbud på 1 dag',
+    'Jens fra Aalborg — tag udskiftet på 4 dage',
+    'Karin fra Odense — tegltag 165.000 kr.',
+    'Peter fra Vejle — eternit fjernet lovligt',
+    'Anna fra Hillerød — stålpladetag installeret',
+  ];
+  const all = [...items, ...items]; // duplicate for seamless loop
+  return `<div class="ticker"><div class="ticker-inner">${all.map(t => `<div class="ticker-item"><span class="ticker-dot"></span>${t}</div>`).join('')}</div></div>`;
+};
+
+// ============= FOOTER =============
+function footer() {
+  const zoneLinks = require('./data').ZONES.slice(0, 8).map(z => `<li><a href="/${z.slug}">${z.name}</a></li>`).join('');
+  const zoneLinks2 = require('./data').ZONES.slice(8).map(z => `<li><a href="/${z.slug}">${z.name}</a></li>`).join('');
+  return `<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand">NytTag<em>Tilbud</em>.com</div>
+        <p>Danmarks hurtigste vej til 3 gratis tilbud på nyt tag fra godkendte lokale taglæggere. 100% gratis og uforpligtende.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Zoner 1-8</h4>
+        <ul>${zoneLinks}</ul>
+      </div>
+      <div class="foot-col">
+        <h4>Zoner 9-15</h4>
+        <ul>${zoneLinks2}</ul>
+      </div>
+      <div class="foot-col">
+        <h4>Ressourcer</h4>
+        <ul>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/blog/hvad-koster-nyt-tag-2026">Tag priser 2026</a></li>
+          <li><a href="/blog/asbest-tag-regler-2025">Asbest regler</a></li>
+          <li><a href="/blog/nyt-tag-tilskud-2026">Tilskud 2026</a></li>
+          <li><a href="${SITE.trustpilotUrl}" rel="nofollow">Trustpilot anmeldelser</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 ${SITE.name} · CVR ${SITE.cvr} · ${SITE.email}</div>
+      <div>Opdateret ${SITE.lastUpdated} · ${SITE.trustpilotRating}★ Trustpilot</div>
+    </div>
+  </div>
+</footer>`;
+}
+
+// ============= MOBILE STICKY CTA =============
+const mobileCta = () => `<div class="mobile-cta"><a href="#tilbud">Få 3 gratis tilbud →</a></div>`;
+
+// ============= SCRIPT =============
+const script = () => `<script>
+(function(){
+  var form=document.querySelector('form#tilbud');
+  if(!form)return;
+  var steps=form.querySelectorAll('.form-step');
+  var dots=form.querySelectorAll('.form-step-dot');
+  var cur=form.querySelector('#step-cur');
+  var success=form.querySelector('.form-success');
+
+  function go(n){
+    steps.forEach(function(s){s.classList.remove('active')});
+    var t=form.querySelector('[data-step="'+n+'"]');
+    if(t)t.classList.add('active');
+    dots.forEach(function(d,i){
+      d.classList.remove('active','done');
+      if(i+1<n)d.classList.add('done');
+      else if(i+1===n)d.classList.add('active');
+    });
+    if(cur)cur.textContent=n;
+  }
+  function validStep(n){
+    var s=form.querySelector('[data-step="'+n+'"]');
+    var req=s.querySelectorAll('[required]');
+    for(var i=0;i<req.length;i++){if(!req[i].value.trim()){req[i].focus();req[i].style.borderColor='#C0392B';return false}req[i].style.borderColor=''}
+    return true;
+  }
+  form.querySelectorAll('.btn-next').forEach(function(b){
+    b.addEventListener('click',function(){
+      var curStep=parseInt(b.closest('.form-step').getAttribute('data-step'),10);
+      if(!validStep(curStep))return;
+      go(parseInt(b.getAttribute('data-next'),10));
+    });
+  });
+  form.querySelectorAll('.btn-back').forEach(function(b){
+    b.addEventListener('click',function(){go(parseInt(b.getAttribute('data-back'),10))});
+  });
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!validStep(3))return;
+    var btn=form.querySelector('.btn-submit');
+    btn.textContent='Sender...';btn.disabled=true;
+    var d={
+      firstName:form.fn.value,lastName:form.ln.value,
+      email:form.em.value,phone:form.tel.value,
+      address:form.adr.value,postcode:form.pc.value,city:form.by.value,
+      propertyType:form.btype.value,project:form.problem.value,timing:form.tid.value,
+      notes:(form.beskriv?form.beskriv.value:''),
+      zone:form.zone.value||detectZone(),
+      source:'nyttagtilbud.com',path:location.pathname
+    };
+    fetch('${SITE.webhook}',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(d)
+    }).then(function(){
+      steps.forEach(function(s){s.classList.remove('active')});
+      form.querySelector('.form-steps').style.display='none';
+      success.classList.add('show');
+      if(window.dataLayer)window.dataLayer.push({event:'lead_submit',zone:d.zone});
+    }).catch(function(){
+      btn.textContent='Prøv igen →';btn.disabled=false;
+    });
+  });
+  function detectZone(){
+    var m=location.pathname.match(/^\\/([a-z]+)/);
+    return m?m[1]:'national';
+  }
+})();
+</script>`;
+
+module.exports = { css, head, urgency, topNav, form, ticker, footer, mobileCta, script };

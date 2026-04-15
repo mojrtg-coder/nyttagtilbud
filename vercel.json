@@ -1,0 +1,89 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/aarhus",
+      "destination": "/aarhus/index.html"
+    },
+    {
+      "source": "/aalborg",
+      "destination": "/aalborg/index.html"
+    },
+    {
+      "source": "/trekanten",
+      "destination": "/trekanten/index.html"
+    },
+    {
+      "source": "/odense",
+      "destination": "/odense/index.html"
+    },
+    {
+      "source": "/vestjylland",
+      "destination": "/vestjylland/index.html"
+    },
+    {
+      "source": "/koebenhavn",
+      "destination": "/koebenhavn/index.html"
+    },
+    {
+      "source": "/nordsjaelland",
+      "destination": "/nordsjaelland/index.html"
+    },
+    {
+      "source": "/vestsjaelland",
+      "destination": "/vestsjaelland/index.html"
+    },
+    {
+      "source": "/sydsjaelland",
+      "destination": "/sydsjaelland/index.html"
+    },
+    {
+      "source": "/sydhavet",
+      "destination": "/sydhavet/index.html"
+    },
+    {
+      "source": "/ostjylland",
+      "destination": "/ostjylland/index.html"
+    },
+    {
+      "source": "/sonderjylland",
+      "destination": "/sonderjylland/index.html"
+    },
+    {
+      "source": "/nordjylland",
+      "destination": "/nordjylland/index.html"
+    },
+    {
+      "source": "/vestfyn",
+      "destination": "/vestfyn/index.html"
+    },
+    {
+      "source": "/midtsjaelland",
+      "destination": "/midtsjaelland/index.html"
+    }
+  ]
+}
