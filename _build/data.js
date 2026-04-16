@@ -1,5 +1,5 @@
 // Site data — single source of truth for generator
-// Pulled verbatim from NytTagTilbud_Site_Bible v1.0 (April 2026)
+// Pulled verbatim from NytTagTilbud_Site_Bible v4.0 (April 2026)
 
 const SITE = {
   name: 'NytTagTilbud.com',
@@ -25,6 +25,7 @@ const ZONES = [
     h1: 'Nyt tag tilbud Aarhus — 3 gratis tilbud',
     heroSub: 'Få 3 gratis og uforpligtende tilbud fra godkendte taglæggere i Aarhus. 2 minutter online. Svar inden 2 timer.',
     cities: ['Aarhus C', 'Viby J', 'Brabrand', 'Risskov', 'Tranbjerg', 'Hasselager'],
+    kommuner: ['Aarhus', 'Skanderborg', 'Odder', 'Samsø'],
     postcodes: ['8000', '8200', '8220', '8240', '8260', '8310', '8361'],
     priceRange: '120.000–260.000',
     avgJob: '180.000',
@@ -39,6 +40,7 @@ const ZONES = [
     h1: 'Nyt tag tilbud Aalborg — 3 gratis tilbud',
     heroSub: 'Få 3 gratis tilbud fra godkendte taglæggere i Aalborg, Nørresundby og omegn. 2 minutter online. Svar inden 2 timer.',
     cities: ['Aalborg', 'Nørresundby', 'Svenstrup', 'Hjørring'],
+    kommuner: ['Aalborg', 'Rebild', 'Vesthimmerlands', 'Mariagerfjord'],
     postcodes: ['9000', '9200', '9230', '9400', '9800'],
     priceRange: '110.000–240.000',
     avgJob: '165.000',
@@ -53,6 +55,7 @@ const ZONES = [
     h1: 'Nyt tag tilbud Trekanten — 3 gratis tilbud',
     heroSub: 'Få 3 gratis tilbud fra godkendte taglæggere i Vejle, Kolding og Fredericia. 2 minutter online.',
     cities: ['Vejle', 'Kolding', 'Fredericia', 'Middelfart'],
+    kommuner: ['Vejle', 'Kolding', 'Fredericia', 'Billund', 'Middelfart'],
     postcodes: ['7100', '6000', '7000', '5500'],
     priceRange: '115.000–250.000',
     avgJob: '172.000',
@@ -67,6 +70,7 @@ const ZONES = [
     h1: 'Nyt tag tilbud Odense — 3 gratis tilbud',
     heroSub: 'Få 3 gratis tilbud fra godkendte taglæggere i Odense og på hele Fyn. Svar inden 2 timer.',
     cities: ['Odense C', 'Odense SV', 'Odense SØ', 'Kerteminde'],
+    kommuner: ['Odense', 'Kerteminde', 'Nyborg', 'Nordfyns'],
     postcodes: ['5000', '5230', '5250', '5300'],
     priceRange: '105.000–235.000',
     avgJob: '160.000',
@@ -81,6 +85,7 @@ const ZONES = [
     h1: 'Nyt tag tilbud Vestjylland — 3 gratis tilbud',
     heroSub: 'Få 3 gratis tilbud fra godkendte taglæggere i Herning, Holstebro, Esbjerg og omegn.',
     cities: ['Herning', 'Holstebro', 'Esbjerg', 'Ringkøbing'],
+    kommuner: ['Herning', 'Holstebro', 'Esbjerg', 'Ikast-Brande', 'Ringkøbing-Skjern', 'Lemvig', 'Struer', 'Fanø'],
     postcodes: ['7400', '7500', '6700', '6950'],
     priceRange: '100.000–230.000',
     avgJob: '158.000',
@@ -95,6 +100,7 @@ const ZONES = [
     h1: 'Nyt tag tilbud København — 3 gratis tilbud',
     heroSub: 'Få 3 gratis tilbud fra godkendte taglæggere i København, Frederiksberg og Gentofte. Svar inden 2 timer.',
     cities: ['København C', 'Frederiksberg', 'Gentofte', 'Hvidovre'],
+    kommuner: ['København', 'Frederiksberg', 'Gentofte', 'Gladsaxe', 'Lyngby-Taarbæk', 'Herlev', 'Ballerup', 'Albertslund', 'Brøndby', 'Hvidovre', 'Rødovre', 'Tårnby', 'Dragør'],
     postcodes: ['1000-1999', '2000', '2820', '2650'],
     priceRange: '140.000–320.000',
     avgJob: '220.000',
@@ -109,6 +115,7 @@ const ZONES = [
     h1: 'Nyt tag tilbud Nordsjælland — 3 gratis tilbud',
     heroSub: 'Få 3 gratis tilbud fra godkendte taglæggere i Hillerød, Helsingør, Hørsholm og omegn.',
     cities: ['Hillerød', 'Helsingør', 'Hørsholm', 'Fredensborg'],
+    kommuner: ['Helsingør', 'Hillerød', 'Hørsholm', 'Rudersdal', 'Fredensborg', 'Gribskov', 'Halsnæs', 'Frederikssund'],
     postcodes: ['3400', '3000', '2970', '3480'],
     priceRange: '135.000–310.000',
     avgJob: '210.000',
@@ -123,6 +130,7 @@ const ZONES = [
     h1: 'Nyt tag tilbud Vestsjælland — 3 gratis tilbud',
     heroSub: 'Få 3 gratis tilbud fra godkendte taglæggere i Roskilde, Køge, Holbæk og omegn.',
     cities: ['Roskilde', 'Køge', 'Holbæk', 'Slagelse'],
+    kommuner: ['Roskilde', 'Køge', 'Holbæk', 'Lejre', 'Greve', 'Solrød', 'Ringsted', 'Sorø', 'Kalundborg'],
     postcodes: ['4000', '4600', '4300', '4200'],
     priceRange: '120.000–270.000',
     avgJob: '180.000',
@@ -137,6 +145,7 @@ const ZONES = [
     h1: 'Nyt tag tilbud Sydsjælland — 3 gratis tilbud',
     heroSub: 'Få 3 gratis tilbud fra godkendte taglæggere i Næstved, Vordingborg og på Stevns.',
     cities: ['Næstved', 'Vordingborg', 'Store Heddinge', 'Præstø'],
+    kommuner: ['Næstved', 'Vordingborg', 'Faxe', 'Slagelse'],
     postcodes: ['4700', '4760', '4660', '4720'],
     priceRange: '105.000–230.000',
     avgJob: '158.000',
@@ -151,6 +160,7 @@ const ZONES = [
     h1: 'Nyt tag tilbud Sydhavet — 3 gratis tilbud',
     heroSub: 'Få 3 gratis tilbud fra godkendte taglæggere i Nykøbing F, Maribo, Rønne og omegn.',
     cities: ['Nykøbing F', 'Maribo', 'Rønne', 'Nakskov'],
+    kommuner: ['Guldborgsund', 'Lolland', 'Bornholm'],
     postcodes: ['4800', '4930', '3700', '4900'],
     priceRange: '95.000–215.000',
     avgJob: '148.000',
@@ -165,6 +175,7 @@ const ZONES = [
     h1: 'Nyt tag tilbud Østjylland — 3 gratis tilbud',
     heroSub: 'Få 3 gratis tilbud fra godkendte taglæggere i Randers, Silkeborg og Viborg.',
     cities: ['Randers', 'Silkeborg', 'Viborg', 'Skanderborg'],
+    kommuner: ['Randers', 'Silkeborg', 'Viborg', 'Favrskov', 'Hedensted', 'Horsens', 'Norddjurs', 'Syddjurs'],
     postcodes: ['8900', '8600', '8800', '8660'],
     priceRange: '110.000–240.000',
     avgJob: '165.000',
@@ -179,6 +190,7 @@ const ZONES = [
     h1: 'Nyt tag tilbud Sønderjylland — 3 gratis tilbud',
     heroSub: 'Få 3 gratis tilbud fra godkendte taglæggere i Aabenraa, Sønderborg og Haderslev.',
     cities: ['Aabenraa', 'Sønderborg', 'Haderslev', 'Tønder'],
+    kommuner: ['Aabenraa', 'Sønderborg', 'Haderslev', 'Tønder'],
     postcodes: ['6200', '6400', '6100', '6270'],
     priceRange: '100.000–220.000',
     avgJob: '152.000',
@@ -193,6 +205,7 @@ const ZONES = [
     h1: 'Nyt tag tilbud Nordjylland — 3 gratis tilbud',
     heroSub: 'Få 3 gratis tilbud fra godkendte taglæggere i Frederikshavn, Hjørring og Thisted.',
     cities: ['Frederikshavn', 'Hjørring', 'Thisted', 'Skagen'],
+    kommuner: ['Frederikshavn', 'Hjørring', 'Thisted', 'Brønderslev', 'Jammerbugt', 'Læsø', 'Morsø'],
     postcodes: ['9900', '9800', '7700', '9990'],
     priceRange: '100.000–225.000',
     avgJob: '155.000',
@@ -207,6 +220,7 @@ const ZONES = [
     h1: 'Nyt tag tilbud Vestfyn — 3 gratis tilbud',
     heroSub: 'Få 3 gratis tilbud fra godkendte taglæggere i Svendborg, Middelfart og Assens.',
     cities: ['Svendborg', 'Middelfart', 'Assens', 'Bogense'],
+    kommuner: ['Svendborg', 'Assens', 'Faaborg-Midtfyn', 'Ærø'],
     postcodes: ['5700', '5500', '5610', '5400'],
     priceRange: '100.000–220.000',
     avgJob: '152.000',
@@ -221,6 +235,7 @@ const ZONES = [
     h1: 'Nyt tag tilbud Midtsjælland — 3 gratis tilbud',
     heroSub: 'Få 3 gratis tilbud fra godkendte taglæggere i Allerød, Farum og Lynge.',
     cities: ['Allerød', 'Farum', 'Lynge', 'Birkerød'],
+    kommuner: ['Allerød', 'Furesø', 'Egedal', 'Ishøj', 'Vallensbæk', 'Glostrup', 'Stevns'],
     postcodes: ['3450', '3520', '3540', '3460'],
     priceRange: '130.000–290.000',
     avgJob: '195.000',
@@ -230,43 +245,129 @@ const ZONES = [
   },
 ];
 
-// City pages — only Bible-named cities (Aarhus 5, Aalborg 2, Trekanten 3 = 10)
-const CITIES = [
-  // Aarhus zone
-  { zone: 'aarhus', slug: 'viby', name: 'Viby J', postcode: '8260',
-    intro: 'Viby J er en af Aarhus\' største forstæder med ca. 15.000 indbyggere og en boligmasse, der overvejende består af parcelhuse fra 1965-1980. Mange af disse huse har oprindelige betontagsten eller eternit, som nu er modne for udskiftning efter 40-50 års brug.',
-    intro2: 'Typiske tagarealer i Viby J ligger på 110-160 m², og prisen for et nyt tegltag ligger typisk mellem 140.000 og 240.000 kr. inklusive nedrivning, undertag, lægter og montering. Lokale taglæggere i området har typisk 2-3 ugers leveringstid.' },
-  { zone: 'aarhus', slug: 'brabrand', name: 'Brabrand', postcode: '8220',
-    intro: 'Brabrand er en moderne forstad vest for Aarhus centrum, kendt for blandingen af 70\'er-parcelhuse og nyere rækkehuse. Området omkring Brabrand Sø har en stor andel af villaer fra 1975-1990, hvor mange nu står overfor første store tagudskiftning.',
-    intro2: 'Brabrand har historisk haft mange betontagsten og enkelte eternittage. De moderne rækkehuse fra 00\'erne har typisk stålpladetag eller betontagsten med endnu 10-20 år tilbage. Priserne ligger på niveau med det øvrige Aarhus — mellem 130.000 og 230.000 kr.' },
-  { zone: 'aarhus', slug: 'risskov', name: 'Risskov', postcode: '8240',
-    intro: 'Risskov er en af Aarhus\' mest velhavende forstæder med over 11.000 indbyggere og en stor andel eksklusive villaer fra 1950\'erne til i dag. Mange ældre huse i Risskov har originale tegltage, som nu er 60+ år gamle og kræver udskiftning.',
-    intro2: 'Boligejere i Risskov vælger ofte premium-løsninger som håndklinkede tegltag, naturskifer eller stålpladetag med lang garanti. Priserne ligger typisk 10-15% over Aarhus-gennemsnittet pga. større tagflader og mere avancerede materialer — ofte 180.000-320.000 kr.' },
-  { zone: 'aarhus', slug: 'tranbjerg', name: 'Tranbjerg', postcode: '8310',
-    intro: 'Tranbjerg ligger syd for Aarhus og er præget af store parcelhuskvarterer fra 1975-1995. Området er en klassisk familiefremkommen forstad med mange villaer på 140-180 m² og tilhørende carporte eller dobbeltcarporte.',
-    intro2: 'De fleste tage i Tranbjerg er enten betontagsten eller stålpladetag. Tegltag er mindre udbredt, men vinder frem ved udskiftninger pga. længere levetid. Priserne for et nyt tag i Tranbjerg ligger typisk mellem 135.000 og 245.000 kr.' },
-  { zone: 'aarhus', slug: 'hasselager', name: 'Hasselager', postcode: '8361',
-    intro: 'Hasselager er et roligt villakvarter syd for Aarhus med en overvejende boligmasse fra 70\'erne og 80\'erne. Området er kendt for store grunde, børnevenlige veje og en tæt forbindelse til Aarhus centrum via motorvejen.',
-    intro2: 'Mange huse i Hasselager har oprindelige betontagsten, som nu er 40-50 år gamle og klar til udskiftning. Tegltag og stålpladetag er de hyppigste valg ved nyudskiftning. Priserne ligger typisk på 130.000-230.000 kr.' },
+// All 92 kommuner — from Bible §16 Kommuner
+const KOMMUNER = [
+  // Zone: aarhus (4)
+  { zone: 'aarhus', slug: 'aarhus', name: 'Aarhus' },
+  { zone: 'aarhus', slug: 'skanderborg', name: 'Skanderborg' },
+  { zone: 'aarhus', slug: 'odder', name: 'Odder' },
+  { zone: 'aarhus', slug: 'samsoe', name: 'Samsø' },
 
-  // Aalborg zone
-  { zone: 'aalborg', slug: 'noerresundby', name: 'Nørresundby', postcode: '9400',
-    intro: 'Nørresundby ligger på nordsiden af Limfjorden og udgør sammen med Aalborg en sammenhængende by med over 140.000 indbyggere. Området er særligt kendt for store parcelhuskvarterer fra 60\'erne og 70\'erne samt nyere rækkehus-udbygninger.',
-    intro2: 'Vejrklimaet i Nørresundby er hårdt — vind og salt fra Limfjorden slider på tagene. Mange huse har stålpladetag eller robuste betontagsten. Priserne for et nyt tag ligger typisk mellem 115.000 og 235.000 kr. og lokale taglæggere har ofte 1-2 ugers leveringstid.' },
-  { zone: 'aalborg', slug: 'hjoerring', name: 'Hjørring', postcode: '9800',
-    intro: 'Hjørring er en af Nordjyllands største byer med ca. 25.000 indbyggere og en stor andel af klassiske parcelhuse fra 50\'erne, 60\'erne og 70\'erne. Mange tage i Hjørring er originale eller en første udskiftning, som nu skal udskiftes igen efter 40-50 år.',
-    intro2: 'Tegltag står stærkt i Hjørring af æstetiske grunde, og mange ældre huse har originale håndlavede tagsten. Det hårde nordjyske vejr gør kvalitet særligt vigtigt. Priserne er typisk 10% under Aalborg — 105.000-215.000 kr.' },
+  // Zone: aalborg (4)
+  { zone: 'aalborg', slug: 'aalborg', name: 'Aalborg' },
+  { zone: 'aalborg', slug: 'rebild', name: 'Rebild' },
+  { zone: 'aalborg', slug: 'vesthimmerlands', name: 'Vesthimmerlands' },
+  { zone: 'aalborg', slug: 'mariagerfjord', name: 'Mariagerfjord' },
 
-  // Trekanten zone
-  { zone: 'trekanten', slug: 'vejle', name: 'Vejle', postcode: '7100',
-    intro: 'Vejle er med sine ca. 57.000 indbyggere en af Østjyllands største byer og en vigtig del af Trekantområdet. Byen har en meget blandet boligmasse — fra gamle byhuse med tegltag i centrum til moderne villakvarterer med betontagsten i udkanten.',
-    intro2: 'Mange tage i Vejle er modne for udskiftning efter 40+ års brug. Byens bakkede terræn betyder ofte mere komplekse tagkonstruktioner, hvilket kan påvirke prisen. Typiske priser i Vejle ligger på 125.000-260.000 kr.' },
-  { zone: 'trekanten', slug: 'kolding', name: 'Kolding', postcode: '6000',
-    intro: 'Kolding er den største by i Trekantområdet med over 60.000 indbyggere. Byen har en særlig stor andel af parcelhuse fra 1965-1985 og en lang tradition for kvalitetshåndværk — mange af landets bedste taglæggere har base i Kolding.',
-    intro2: 'Betontagsten og eternit dominerer i Koldings forstæder, mens tegltag er mere udbredt i centrum og ældre villakvarterer. Priserne ligger typisk mellem 115.000 og 245.000 kr., og konkurrencen blandt lokale taglæggere gør Kolding til en af Danmarks mere prisvenlige byer for nyt tag.' },
-  { zone: 'trekanten', slug: 'fredericia', name: 'Fredericia', postcode: '7000',
-    intro: 'Fredericia er kendt for sin særlige militær-historiske bymidte og de store forstadsområder, der voksede frem i 60\'erne og 70\'erne. Byen har omkring 40.000 indbyggere, og langt de fleste villaer i området har originale tage fra den oprindelige byggeperiode.',
-    intro2: 'Asbestholdig bølgeeternit er stadig relativt almindeligt i Fredericia, og nedrivning skal håndteres korrekt af autoriserede taglæggere. Priserne ligger typisk på 110.000-230.000 kr., og flere lokale firmaer har specialiseret sig i asbest-nedrivning.' },
+  // Zone: trekanten (5)
+  { zone: 'trekanten', slug: 'vejle', name: 'Vejle' },
+  { zone: 'trekanten', slug: 'kolding', name: 'Kolding' },
+  { zone: 'trekanten', slug: 'fredericia', name: 'Fredericia' },
+  { zone: 'trekanten', slug: 'billund', name: 'Billund' },
+  { zone: 'trekanten', slug: 'middelfart', name: 'Middelfart' },
+
+  // Zone: odense (4)
+  { zone: 'odense', slug: 'odense', name: 'Odense' },
+  { zone: 'odense', slug: 'kerteminde', name: 'Kerteminde' },
+  { zone: 'odense', slug: 'nyborg', name: 'Nyborg' },
+  { zone: 'odense', slug: 'nordfyns', name: 'Nordfyns' },
+
+  // Zone: vestjylland (8)
+  { zone: 'vestjylland', slug: 'herning', name: 'Herning' },
+  { zone: 'vestjylland', slug: 'holstebro', name: 'Holstebro' },
+  { zone: 'vestjylland', slug: 'esbjerg', name: 'Esbjerg' },
+  { zone: 'vestjylland', slug: 'ikast-brande', name: 'Ikast-Brande' },
+  { zone: 'vestjylland', slug: 'ringkoebing-skjern', name: 'Ringkøbing-Skjern' },
+  { zone: 'vestjylland', slug: 'lemvig', name: 'Lemvig' },
+  { zone: 'vestjylland', slug: 'struer', name: 'Struer' },
+  { zone: 'vestjylland', slug: 'fanoe', name: 'Fanø' },
+
+  // Zone: koebenhavn (13)
+  { zone: 'koebenhavn', slug: 'koebenhavn', name: 'København' },
+  { zone: 'koebenhavn', slug: 'frederiksberg', name: 'Frederiksberg' },
+  { zone: 'koebenhavn', slug: 'gentofte', name: 'Gentofte' },
+  { zone: 'koebenhavn', slug: 'gladsaxe', name: 'Gladsaxe' },
+  { zone: 'koebenhavn', slug: 'lyngby-taarbaek', name: 'Lyngby-Taarbæk' },
+  { zone: 'koebenhavn', slug: 'herlev', name: 'Herlev' },
+  { zone: 'koebenhavn', slug: 'ballerup', name: 'Ballerup' },
+  { zone: 'koebenhavn', slug: 'albertslund', name: 'Albertslund' },
+  { zone: 'koebenhavn', slug: 'broendby', name: 'Brøndby' },
+  { zone: 'koebenhavn', slug: 'hvidovre', name: 'Hvidovre' },
+  { zone: 'koebenhavn', slug: 'roedovre', name: 'Rødovre' },
+  { zone: 'koebenhavn', slug: 'taarnby', name: 'Tårnby' },
+  { zone: 'koebenhavn', slug: 'dragoer', name: 'Dragør' },
+
+  // Zone: nordsjaelland (8)
+  { zone: 'nordsjaelland', slug: 'helsingoer', name: 'Helsingør' },
+  { zone: 'nordsjaelland', slug: 'hilleroed', name: 'Hillerød' },
+  { zone: 'nordsjaelland', slug: 'hoersholm', name: 'Hørsholm' },
+  { zone: 'nordsjaelland', slug: 'rudersdal', name: 'Rudersdal' },
+  { zone: 'nordsjaelland', slug: 'fredensborg', name: 'Fredensborg' },
+  { zone: 'nordsjaelland', slug: 'gribskov', name: 'Gribskov' },
+  { zone: 'nordsjaelland', slug: 'halsnaes', name: 'Halsnæs' },
+  { zone: 'nordsjaelland', slug: 'frederikssund', name: 'Frederikssund' },
+
+  // Zone: vestsjaelland (9)
+  { zone: 'vestsjaelland', slug: 'roskilde', name: 'Roskilde' },
+  { zone: 'vestsjaelland', slug: 'koege', name: 'Køge' },
+  { zone: 'vestsjaelland', slug: 'holbaek', name: 'Holbæk' },
+  { zone: 'vestsjaelland', slug: 'lejre', name: 'Lejre' },
+  { zone: 'vestsjaelland', slug: 'greve', name: 'Greve' },
+  { zone: 'vestsjaelland', slug: 'solroed', name: 'Solrød' },
+  { zone: 'vestsjaelland', slug: 'ringsted', name: 'Ringsted' },
+  { zone: 'vestsjaelland', slug: 'soroe', name: 'Sorø' },
+  { zone: 'vestsjaelland', slug: 'kalundborg', name: 'Kalundborg' },
+
+  // Zone: sydsjaelland (4)
+  { zone: 'sydsjaelland', slug: 'naestved', name: 'Næstved' },
+  { zone: 'sydsjaelland', slug: 'vordingborg', name: 'Vordingborg' },
+  { zone: 'sydsjaelland', slug: 'faxe', name: 'Faxe' },
+  { zone: 'sydsjaelland', slug: 'slagelse', name: 'Slagelse' },
+
+  // Zone: sydhavet (3)
+  { zone: 'sydhavet', slug: 'guldborgsund', name: 'Guldborgsund' },
+  { zone: 'sydhavet', slug: 'lolland', name: 'Lolland' },
+  { zone: 'sydhavet', slug: 'bornholm', name: 'Bornholm' },
+
+  // Zone: ostjylland (8)
+  { zone: 'ostjylland', slug: 'randers', name: 'Randers' },
+  { zone: 'ostjylland', slug: 'silkeborg', name: 'Silkeborg' },
+  { zone: 'ostjylland', slug: 'viborg', name: 'Viborg' },
+  { zone: 'ostjylland', slug: 'favrskov', name: 'Favrskov' },
+  { zone: 'ostjylland', slug: 'hedensted', name: 'Hedensted' },
+  { zone: 'ostjylland', slug: 'horsens', name: 'Horsens' },
+  { zone: 'ostjylland', slug: 'norddjurs', name: 'Norddjurs' },
+  { zone: 'ostjylland', slug: 'syddjurs', name: 'Syddjurs' },
+
+  // Zone: sonderjylland (4)
+  { zone: 'sonderjylland', slug: 'aabenraa', name: 'Aabenraa' },
+  { zone: 'sonderjylland', slug: 'soenderborg', name: 'Sønderborg' },
+  { zone: 'sonderjylland', slug: 'haderslev', name: 'Haderslev' },
+  { zone: 'sonderjylland', slug: 'toender', name: 'Tønder' },
+
+  // Zone: nordjylland (7)
+  { zone: 'nordjylland', slug: 'frederikshavn', name: 'Frederikshavn' },
+  { zone: 'nordjylland', slug: 'hjoerring', name: 'Hjørring' },
+  { zone: 'nordjylland', slug: 'thisted', name: 'Thisted' },
+  { zone: 'nordjylland', slug: 'broenderslev', name: 'Brønderslev' },
+  { zone: 'nordjylland', slug: 'jammerbugt', name: 'Jammerbugt' },
+  { zone: 'nordjylland', slug: 'laesoe', name: 'Læsø' },
+  { zone: 'nordjylland', slug: 'morsoe', name: 'Morsø' },
+
+  // Zone: vestfyn (4)
+  { zone: 'vestfyn', slug: 'svendborg', name: 'Svendborg' },
+  { zone: 'vestfyn', slug: 'assens', name: 'Assens' },
+  { zone: 'vestfyn', slug: 'faaborg-midtfyn', name: 'Faaborg-Midtfyn' },
+  { zone: 'vestfyn', slug: 'aeroe', name: 'Ærø' },
+
+  // Zone: midtsjaelland (7)
+  { zone: 'midtsjaelland', slug: 'alleroed', name: 'Allerød' },
+  { zone: 'midtsjaelland', slug: 'furesoe', name: 'Furesø' },
+  { zone: 'midtsjaelland', slug: 'egedal', name: 'Egedal' },
+  { zone: 'midtsjaelland', slug: 'ishoej', name: 'Ishøj' },
+  { zone: 'midtsjaelland', slug: 'vallensbaek', name: 'Vallensbæk' },
+  { zone: 'midtsjaelland', slug: 'glostrup', name: 'Glostrup' },
+  { zone: 'midtsjaelland', slug: 'stevns', name: 'Stevns' },
 ];
 
 // The 8 blog posts — full content written in blog.js template
@@ -321,4 +422,4 @@ const BLOG_POSTS = [
     readTime: '6 min læsning' },
 ];
 
-module.exports = { SITE, ZONES, CITIES, BLOG_POSTS };
+module.exports = { SITE, ZONES, KOMMUNER, BLOG_POSTS };

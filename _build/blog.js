@@ -1,7 +1,7 @@
 // Full blog post bodies — 1200+ ord dansk, SEO-optimeret
 // Each post is { slug, title, desc, h1, lead, sections[] }
 const { SITE, BLOG_POSTS } = require('./data');
-const { head, urgency, topNav, footer, mobileCta, script } = require('./components');
+const { head, urgency, topNav, footer, mobileCta, script, cookieBanner, exitIntent } = require('./components');
 const { orgSchema, faqSchema, breadcrumbSchema, articleSchema, ctaBand } = require('./pages');
 
 // Each blog post has `body` HTML + `faqs` array
@@ -573,6 +573,8 @@ ${topNav()}
 ${ctaBand()}
 ${footer()}
 ${mobileCta()}
+${cookieBanner()}
+${exitIntent()}
 ${script()}
 </body>
 </html>`;

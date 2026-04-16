@@ -1,6 +1,19 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "nyttagtilbud.com"
+        }
+      ],
+      "destination": "https://www.nyttagtilbud.com/:path*",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -84,6 +97,18 @@
     {
       "source": "/midtsjaelland",
       "destination": "/midtsjaelland/index.html"
+    },
+    {
+      "source": "/privatlivspolitik",
+      "destination": "/privatlivspolitik/index.html"
+    },
+    {
+      "source": "/om-os",
+      "destination": "/om-os/index.html"
+    },
+    {
+      "source": "/:zone/:kommune",
+      "destination": "/:zone/:kommune/index.html"
     }
   ]
 }

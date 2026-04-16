@@ -1,8 +1,8 @@
 // Build entry — writes all static HTML + vercel.json + sitemap.xml + robots.txt
 const fs = require('fs');
 const path = require('path');
-const { SITE, ZONES, CITIES, BLOG_POSTS } = require('./data');
-const { home, zonePage, cityPage, blogIndex } = require('./pages');
+const { SITE, ZONES, KOMMUNER, BLOG_POSTS } = require('./data');
+const { home, zonePage, kommunePage, blogIndex, omOsPage, privatlivspolitikPage } = require('./pages');
 const { blogPage } = require('./blog');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -14,28 +14,39 @@ function write(rel, content) {
   console.log('  ✓', rel);
 }
 
-console.log('→ Building NytTagTilbud.com');
+console.log('→ Building NytTagTilbud.com v4');
 
 // Homepage
 write('index.html', home());
 
 // Zone pages
-console.log('→ Zones');
+console.log('→ Zones (15)');
 for (const z of ZONES) write(`${z.slug}/index.html`, zonePage(z));
 
-// City pages
-console.log('→ Cities');
-for (const c of CITIES) write(`${c.zone}/${c.slug}/index.html`, cityPage(c));
+// Kommune pages
+console.log(`→ Kommuner (${KOMMUNER.length})`);
+for (const k of KOMMUNER) write(`${k.zone}/${k.slug}/index.html`, kommunePage(k));
 
 // Blog
 console.log('→ Blog');
 write('blog/index.html', blogIndex());
 for (const p of BLOG_POSTS) write(`blog/${p.slug}/index.html`, blogPage(p));
 
-// vercel.json
+// Om os
+console.log('→ Pages');
+write('om-os/index.html', omOsPage());
+write('privatlivspolitik/index.html', privatlivspolitikPage());
+
+// vercel.json — with www-redirect + kommune wildcard rewrite
 const vercel = {
   cleanUrls: true,
   trailingSlash: false,
+  redirects: [{
+    source: '/:path*',
+    has: [{ type: 'host', value: 'nyttagtilbud.com' }],
+    destination: 'https://www.nyttagtilbud.com/:path*',
+    permanent: true,
+  }],
   headers: [
     {
       source: '/(.*)',
@@ -47,7 +58,12 @@ const vercel = {
       ],
     },
   ],
-  rewrites: ZONES.map(z => ({ source: `/${z.slug}`, destination: `/${z.slug}/index.html` })),
+  rewrites: [
+    ...ZONES.map(z => ({ source: `/${z.slug}`, destination: `/${z.slug}/index.html` })),
+    { source: '/privatlivspolitik', destination: '/privatlivspolitik/index.html' },
+    { source: '/om-os', destination: '/om-os/index.html' },
+    { source: '/:zone/:kommune', destination: '/:zone/:kommune/index.html' },
+  ],
 };
 write('vercel.json', JSON.stringify(vercel, null, 2));
 
@@ -55,9 +71,11 @@ write('vercel.json', JSON.stringify(vercel, null, 2));
 const urls = [
   { loc: '/', priority: '1.0', cf: 'weekly' },
   ...ZONES.map(z => ({ loc: `/${z.slug}`, priority: '0.9', cf: 'weekly' })),
-  ...CITIES.map(c => ({ loc: `/${c.zone}/${c.slug}`, priority: '0.8', cf: 'monthly' })),
+  ...KOMMUNER.map(k => ({ loc: `/${k.zone}/${k.slug}`, priority: '0.8', cf: 'monthly' })),
   { loc: '/blog', priority: '0.7', cf: 'weekly' },
   ...BLOG_POSTS.map(p => ({ loc: `/blog/${p.slug}`, priority: '0.6', cf: 'monthly' })),
+  { loc: '/om-os', priority: '0.5', cf: 'monthly' },
+  { loc: '/privatlivspolitik', priority: '0.3', cf: 'yearly' },
 ];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -79,4 +97,5 @@ Disallow: /_build/
 Sitemap: ${SITE.domain}/sitemap.xml
 `);
 
-console.log(`\n✓ Done. Generated ${1 + ZONES.length + CITIES.length + 1 + BLOG_POSTS.length} HTML pages + vercel.json + sitemap.xml + robots.txt`);
+const total = 1 + ZONES.length + KOMMUNER.length + 1 + BLOG_POSTS.length + 2;
+console.log(`\n✓ Done. Generated ${total} HTML pages + vercel.json + sitemap.xml + robots.txt`);
