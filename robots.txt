@@ -3,3 +3,4 @@ Allow: /
 Disallow: /_build/
 
 Sitemap: https://www.nyttagtilbud.com/sitemap.xml
+# v5 CRO — April 2026
