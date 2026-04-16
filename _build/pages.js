@@ -1,6 +1,6 @@
 // Page templates
 const { SITE, ZONES, KOMMUNER, BLOG_POSTS } = require('./data');
-const { head, urgency, topNav, form, ticker, footer, mobileCta, script, cookieBanner, exitIntent, guarantee } = require('./components');
+const { head, urgency, topNav, form, ticker, footer, mobileCta, script, cookieBanner, exitIntent, guarantee, backToTop } = require('./components');
 
 // ========== SHARED FAQS ==========
 const nationalFaqs = [
@@ -97,6 +97,10 @@ function faqSection(faqs, bg = 'faq') {
     <div class="faq-list">
       ${faqs.map(f => `<details class="faq-item"><summary>${f.q}</summary><p>${f.a}</p></details>`).join('')}
     </div>
+    <div style="text-align:center;margin-top:28px;padding:24px;background:var(--white);border:1px solid var(--border);border-radius:14px">
+      <p style="font-size:15px;color:var(--ink);margin-bottom:12px;font-family:'Instrument Serif',serif">Stadig spørgsmål? Stil dem direkte til taglæggerne.</p>
+      <a href="#tilbud" style="display:inline-block;background:var(--gold);color:var(--ink);padding:13px 28px;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none">Få 3 gratis tilbud og spørg direkte →</a>
+    </div>
   </div>
 </section>`;
 }
@@ -110,9 +114,9 @@ function stepsSection() {
       <p>Ingen bindinger. Ingen gebyrer. 100% gratis og uforpligtende — lige meget hvor i Danmark du bor.</p>
     </div>
     <div class="steps-grid">
-      <div class="step"><div class="step-num">1</div><h3>Udfyld formularen</h3><p>Fortæl os kort om din bolig, tagprojekt og kontaktoplysninger. Det tager cirka 2 minutter og foregår 100% online.</p></div>
-      <div class="step"><div class="step-num">2</div><h3>Modtag 3 tilbud</h3><p>Vi matcher dig med op til 3 godkendte lokale taglæggere i din zone. Første tilbud ankommer typisk inden for 2 timer.</p></div>
-      <div class="step"><div class="step-num">3</div><h3>Vælg det rigtige</h3><p>Sammenlign tilbud, materialer og leveringstid. Vælg det tilbud der passer bedst — eller ingen af dem. Ingen bindinger.</p></div>
+      <div class="step"><div class="step-num">1</div><h3>Udfyld formularen</h3><p>Fortæl os kort om din bolig, tagprojekt og kontaktoplysninger. Det tager cirka 2 minutter og foregår 100% online.</p><p style="font-size:12px;color:var(--gold);font-family:'Space Mono',monospace;margin-top:10px;font-weight:700">~ 2 minutter</p></div>
+      <div class="step"><div class="step-num">2</div><h3>Modtag 3 tilbud</h3><p>Vi matcher dig med op til 3 godkendte lokale taglæggere i din zone. Første tilbud ankommer typisk inden for 2 timer.</p><p style="font-size:12px;color:var(--gold);font-family:'Space Mono',monospace;margin-top:10px;font-weight:700">~ 2 timer</p></div>
+      <div class="step"><div class="step-num">3</div><h3>Vælg det rigtige</h3><p>Sammenlign tilbud, materialer og leveringstid. Vælg det tilbud der passer bedst — eller ingen af dem. Ingen bindinger.</p><p style="font-size:12px;color:var(--gold);font-family:'Space Mono',monospace;margin-top:10px;font-weight:700">Ingen binding</p></div>
     </div>
   </div>
 </section>`;
@@ -140,7 +144,11 @@ function pricingSection() {
         </tbody>
       </table>
     </div>
-    <p style="text-align:center;margin-top:24px;color:var(--muted);font-size:13px;font-family:'Space Mono',monospace">Alle priser er indikative — præcise tilbud kræver opmåling af tagareal og inspektion.</p>
+    <div style="text-align:center;margin-top:28px">
+      <p style="color:var(--muted);font-size:14px;margin-bottom:16px">Spar op til 40.000 kr. ved at sammenligne 3 lokale tilbud</p>
+      <a href="#tilbud" class="cta-btn">Få gratis tilbud nu →</a>
+      <p style="margin-top:12px;color:var(--muted);font-size:12px;font-family:'Space Mono',monospace">Alle priser er indikative — præcise tilbud kræver opmåling</p>
+    </div>
   </div>
 </section>`;
 }
@@ -158,11 +166,13 @@ function zoneGridSection(currentSlug = '') {
         const full = z.spots === 0;
         const spotText = full ? 'Fuldt booket' : `${z.spots} plads${z.spots === 1 ? '' : 'er'} tilbage`;
         const active = z.slug === currentSlug ? ' style="border-color:var(--gold2)"' : '';
+        const popular = (z.slug === 'aarhus' || z.slug === 'koebenhavn') ? '<span class="zn-popular">🔥 Populær</span>' : '';
         return `<a href="/${z.slug}" class="zone-card"${active}>
-          <div class="zn-num">Zone ${z.num}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center"><div class="zn-num">Zone ${z.num}</div>${popular}</div>
           <h3>${z.name}</h3>
           <div class="zn-cities">${(z.kommuner||z.cities).slice(0, 4).join(' · ')}</div>
           <div class="zn-spots ${full ? 'full' : ''}"><span class="dot"></span>${spotText}</div>
+          <div class="zn-cta">Se tilbud i din zone →</div>
         </a>`;
       }).join('')}
     </div>
@@ -179,24 +189,24 @@ function proofSection() {
       <p>${SITE.trustpilotRating} stjerner baseret på ${SITE.trustpilotCount} uopfordrede anmeldelser. Alle citater herunder er verbatim fra Trustpilot.</p>
     </div>
     <div class="reviews-grid">
-      <div class="review">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">"Brugte NytTagTilbud.com da vores tag begyndte at lække. Fik hurtigt kontakt fra tre taglæggere i området og endte med et tilbud der lå 40.000 under hvad jeg selv havde indhentet. Kan klart anbefales."</p>
-        <div class="review-meta"><span class="review-name">Michael Oxholm Johansen</span><span class="review-date">2. apr 2026</span></div>
+      <div class="review" itemscope itemtype="https://schema.org/Review">
+        <div class="review-stars" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating"><meta itemprop="ratingValue" content="5"><meta itemprop="bestRating" content="5">★★★★★</div>
+        <p class="review-text" itemprop="reviewBody">"Brugte NytTagTilbud.com da vores tag begyndte at lække. Fik hurtigt kontakt fra tre taglæggere i området og endte med et tilbud der lå 40.000 under hvad jeg selv havde indhentet. Kan klart anbefales."</p>
+        <div class="review-meta"><span class="review-name" itemprop="author">Michael Oxholm Johansen</span><span class="review-date">2. apr 2026</span></div>
       </div>
-      <div class="review">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">"Super nem proces. Udfyldte formularen på under 2 minutter og blev ringet op samme eftermiddag. Professionelt og hurtigt."</p>
-        <div class="review-meta"><span class="review-name">Matilde</span><span class="review-date">13. mar 2026</span></div>
+      <div class="review" itemscope itemtype="https://schema.org/Review">
+        <div class="review-stars" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating"><meta itemprop="ratingValue" content="5"><meta itemprop="bestRating" content="5">★★★★★</div>
+        <p class="review-text" itemprop="reviewBody">"Super nem proces. Udfyldte formularen på under 2 minutter og blev ringet op samme eftermiddag. Professionelt og hurtigt."</p>
+        <div class="review-meta"><span class="review-name" itemprop="author">Matilde</span><span class="review-date">13. mar 2026</span></div>
       </div>
-      <div class="review">
-        <div class="review-stars">★★★★<span style="color:var(--border)">★</span></div>
-        <p class="review-text">"Var skeptisk i starten, men det er faktisk gratis som de siger. Tre tilbud i hånden uden at løbe rundt og kontakte taglæggere selv. Siger sig selv at det er smart."</p>
-        <div class="review-meta"><span class="review-name">Nanna Johansen</span><span class="review-date">2. apr 2026</span></div>
+      <div class="review" itemscope itemtype="https://schema.org/Review">
+        <div class="review-stars" itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating"><meta itemprop="ratingValue" content="4"><meta itemprop="bestRating" content="5">★★★★<span style="color:var(--border)">★</span></div>
+        <p class="review-text" itemprop="reviewBody">"Var skeptisk i starten, men det er faktisk gratis som de siger. Tre tilbud i hånden uden at løbe rundt og kontakte taglæggere selv. Siger sig selv at det er smart."</p>
+        <div class="review-meta"><span class="review-name" itemprop="author">Nanna Johansen</span><span class="review-date">2. apr 2026</span></div>
       </div>
     </div>
     <div style="text-align:center">
-      <a href="${SITE.trustpilotUrl}" rel="nofollow" class="tp-badge"><b>${SITE.trustpilotRating} ★</b> baseret på ${SITE.trustpilotCount} anmeldelser på Trustpilot</a>
+      <a href="${SITE.trustpilotUrl}" rel="nofollow noopener" target="_blank" class="tp-badge"><b>${SITE.trustpilotRating} ★</b> baseret på ${SITE.trustpilotCount} anmeldelser på Trustpilot</a>
     </div>
   </div>
 </section>`;
@@ -206,10 +216,44 @@ function ctaBand() {
   return `<section class="cta-band">
   <div class="container">
     <h2>Klar til at spare <em>op til 40.000 kr.</em> på dit nye tag?</h2>
-    <p>Udfyld formularen nu og modtag 3 gratis tilbud fra godkendte lokale taglæggere. Svar inden 2 timer på hverdage kl. 8–17.</p>
-    <a href="#tilbud" class="cta-btn">Start formularen →</a>
+    <p>Udfyld formularen og modtag 3 gratis tilbud inden for 2 timer på hverdage.</p>
+    <div class="cta-mini-form">
+      <input id="cta-pc" type="text" placeholder="Dit postnummer" maxlength="4" pattern="[0-9]{4}">
+      <button onclick="jumpToForm()">Find taglæggere →</button>
+    </div>
   </div>
 </section>`;
+}
+
+// ========== COMPARISON TABLE (CRO #19) ==========
+function comparisonSection() {
+  var h = '<section style="padding:60px 0;background:var(--cream)">';
+  h += '<div class="container">';
+  h += '<div class="sec-head"><span class="sec-label">Sammenligning</span>';
+  h += '<h2>Hvorfor vælge NytTagTilbud?</h2></div>';
+  h += '<div class="price-table-wrap"><table class="price-table">';
+  h += '<thead><tr><th>Funktion</th><th style="color:var(--gold2)">NytTagTilbud.com</th><th>Andre tjenester</th></tr></thead>';
+  h += '<tbody>';
+  h += '<tr><td>Pris for boligejer</td><td class="compare-highlight"><b>Gratis</b></td><td>Gratis</td></tr>';
+  h += '<tr><td>Maks. antal firmaer per lead</td><td class="compare-highlight"><b>3 taglæggere</b></td><td>10+ firmaer</td></tr>';
+  h += '<tr><td>Specialisering</td><td class="compare-highlight"><b>Kun tag</b></td><td>Alt muligt håndværk</td></tr>';
+  h += '<tr><td>Lokale taglæggere</td><td class="compare-highlight"><b>Altid</b></td><td>Ikke garanteret</td></tr>';
+  h += '<tr><td>Svartid garanti</td><td class="compare-highlight"><b>2 timer hverdage</b></td><td>Varierer</td></tr>';
+  h += '</tbody></table></div></div></section>';
+  return h;
+}
+
+// ========== BEFORE/AFTER IMAGE SECTION ==========
+function beforeAfterSection() {
+  var h = '<section style="padding:60px 0;background:var(--warm)">';
+  h += '<div class="container">';
+  h += '<div class="sec-head"><span class="sec-label">Resultater</span>';
+  h += '<h2>Se forskellen — f\u00F8r og efter</h2>';
+  h += '<p>Rigtige resultater fra danske boligejere der brugte NytTagTilbud.com</p></div>';
+  h += '<div class="before-after">';
+  h += '<div><img src="/img/before-after.png" alt="Hus med gammelt tag vs nyt tag" loading="lazy" width="800" height="533"></div>';
+  h += '</div></div></section>';
+  return h;
 }
 
 // ========== HOME PAGE ==========
@@ -231,14 +275,14 @@ ${topNav()}
   <div class="container">
     <div class="hero-grid">
       <div>
-        <div class="hero-badge">📋 Opdateret ${SITE.lastUpdated}</div>
-        <h1>Få 3 gratis tilbud på <em>nyt tag</em> fra godkendte fagfolk</h1>
-        <p class="sub">NytTagTilbud.com matcher dig med op til 3 godkendte lokale taglæggere — 100% gratis og uforpligtende. Svar inden 2 timer på hverdage.</p>
+        <div class="hero-badge">★★★★ 4.0 Trustpilot verificeret · ${SITE.lastUpdated}</div>
+        <h1>3 lokale taglæggere <em>ringer dig op</em> — inden for 2 timer</h1>
+        <p class="sub">Udfyld formularen på 2 minutter. Vi matcher dig med 3 godkendte taglæggere i dit område — 100% gratis og uforpligtende.</p>
         <div class="hero-stats">
           <div class="hero-stat"><b>4.0★</b><span>Trustpilot verificeret</span></div>
           <div class="hero-stat"><b>15</b><span>Zoner i hele Danmark</span></div>
           <div class="hero-stat"><b>40.000 kr</b><span>Gns. besparelse</span></div>
-          <div class="hero-stat"><b>100%</b><span>Gratis og uforpligtende</span></div>
+          <div class="hero-stat"><b>2 timer</b><span>Garanteret svartid</span></div>
         </div>
         <div class="hero-trust"><span class="tp-stars">★★★★<span style="color:rgba(255,255,255,.25)">★</span></span> ${SITE.trustpilotRating}/5 på Trustpilot · ${SITE.trustpilotCount} uopfordrede anmeldelser</div>
       </div>
@@ -246,16 +290,37 @@ ${topNav()}
     </div>
   </div>
 </header>
+<div class="social-proof-bar">
+  <div class="container">
+    <div class="proof-item"><b>4.0★</b><span>Trustpilot</span></div>
+    <div class="proof-item"><b>15</b><span>Zoner</span></div>
+    <div class="proof-item"><b>92</b><span>Kommuner</span></div>
+    <div class="proof-item"><b>2 timer</b><span>Svartid</span></div>
+    <div class="proof-item"><b>40.000</b><span>Gns. besparelse</span></div>
+  </div>
+</div>
 ${ticker()}
 ${stepsSection()}
+${comparisonSection()}
 ${pricingSection()}
+<div class="img-showcase">
+  <img src="/img/roofer-installing.png" alt="Taglægger installerer nyt tegltag på dansk parcelhus" loading="lazy" width="1200" height="800">
+  <div class="container">
+    <span class="sec-label" style="color:var(--gold2)">Professionelle taglæggere</span>
+    <h2>Lokale fagfolk med erfaring</h2>
+    <p>Vores taglæggere er CVR-registrerede, certificerede og kender de lokale bygningsforhold i dit område.</p>
+    <a href="#tilbud" class="cta-btn" style="margin-top:20px">Få 3 gratis tilbud →</a>
+  </div>
+</div>
 ${zoneGridSection()}
+${beforeAfterSection()}
 ${proofSection()}
 ${faqSection(nationalFaqs)}
 ${guarantee()}
 ${ctaBand()}
 ${footer()}
 ${mobileCta()}
+${backToTop()}
 ${cookieBanner()}
 ${exitIntent()}
 ${script()}
@@ -349,6 +414,7 @@ ${guarantee()}
 ${ctaBand()}
 ${footer()}
 ${mobileCta()}
+${backToTop()}
 ${cookieBanner()}
 ${exitIntent()}
 ${script()}
@@ -428,6 +494,7 @@ function kommunePage(kommune) {
 + ctaBand()
 + footer()
 + mobileCta()
++ backToTop()
 + cookieBanner()
 + exitIntent()
 + script()
@@ -511,6 +578,7 @@ ${faqSection(faqs)}
 ${ctaBand()}
 ${footer()}
 ${mobileCta()}
+${backToTop()}
 ${cookieBanner()}
 ${exitIntent()}
 ${script()}
@@ -559,6 +627,7 @@ ${topNav()}
 ${ctaBand()}
 ${footer()}
 ${mobileCta()}
+${backToTop()}
 ${cookieBanner()}
 ${exitIntent()}
 ${script()}
@@ -642,6 +711,7 @@ ${topNav()}
 </section>
 ${footer()}
 ${mobileCta()}
+${backToTop()}
 ${cookieBanner()}
 ${exitIntent()}
 ${script()}
@@ -684,6 +754,7 @@ ${topNav()}
 ${ctaBand()}
 ${footer()}
 ${mobileCta()}
+${backToTop()}
 ${cookieBanner()}
 ${exitIntent()}
 ${script()}
@@ -695,5 +766,5 @@ module.exports = {
   home, zonePage, kommunePage, cityPage, blogIndex, omOsPage, privatlivspolitikPage,
   orgSchema, serviceSchema, faqSchema, breadcrumbSchema, articleSchema,
   nationalFaqs, zoneFaqs, cityFaqs, kommuneFaqs,
-  faqSection, pricingSection, zoneGridSection, proofSection, stepsSection, ctaBand,
+  faqSection, pricingSection, zoneGridSection, proofSection, stepsSection, ctaBand, comparisonSection, beforeAfterSection,
 };

@@ -14,7 +14,7 @@ function write(rel, content) {
   console.log('  ✓', rel);
 }
 
-console.log('→ Building NytTagTilbud.com v4');
+console.log('→ Building NytTagTilbud.com v5 CRO');
 
 // Homepage
 write('index.html', home());
@@ -51,6 +51,7 @@ const vercel = {
     {
       source: '/(.*)',
       headers: [
+        { key: 'X-Robots-Tag', value: 'index, follow' },
         { key: 'X-Content-Type-Options', value: 'nosniff' },
         { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
         { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
